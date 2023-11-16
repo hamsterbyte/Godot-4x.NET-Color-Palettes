@@ -1,0 +1,94 @@
+[gd_scene load_steps=12 format=3 uid="uid://x6j8moob5nhi"]
+
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UIPalette.cs" id="1_ssclc"]
+[ext_resource type="Texture2D" uid="uid://b5wc6it2jp8lv" path="res://addons/Color Palette/Icons/icon_ArrowRight.png" id="2_jmv46"]
+[ext_resource type="Texture2D" uid="uid://cricgv36ugx1t" path="res://addons/Color Palette/Icons/icon_ArrowDown.png" id="3_rbl6l"]
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UIToggleExpandPalette.cs" id="5_csewn"]
+[ext_resource type="PackedScene" uid="uid://o4ej4exlxy1d" path="res://addons/Color Palette/Scenes/Swatch.tscn" id="6_4ti3y"]
+[ext_resource type="Texture2D" uid="uid://bwg71c5laoj6a" path="res://addons/Color Palette/Icons/icon_Palette.png" id="6_sdpry"]
+[ext_resource type="Texture2D" uid="uid://cij1frpcvv5u1" path="res://addons/Color Palette/Icons/icon_UpArrow.svg" id="7_rvf5i"]
+[ext_resource type="Texture2D" uid="uid://k2ejge4vii4n" path="res://addons/Color Palette/Icons/icon_Plus.png" id="8_eq43k"]
+[ext_resource type="Texture2D" uid="uid://d34ltk6kv3vnx" path="res://addons/Color Palette/Icons/icon_UpArrowHover.svg" id="8_tavot"]
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UIAddSwatchButton.cs" id="10_tahv0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p623j"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+draw_center = false
+
+[node name="Palette" type="PanelContainer" node_paths=PackedStringArray("_nameLabel", "_swatchFlow")]
+custom_minimum_size = Vector2(0, 28)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 138.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p623j")
+script = ExtResource("1_ssclc")
+_swatchScene = ExtResource("6_4ti3y")
+_nameLabel = NodePath("VBox/Header/Name")
+_swatchFlow = NodePath("VBox/Swatches")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Header" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Toggle" type="TextureButton" parent="VBox/Header" node_paths=PackedStringArray("_swatchContainer")]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("2_jmv46")
+texture_pressed = ExtResource("3_rbl6l")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("5_csewn")
+_swatchContainer = NodePath("../../Swatches")
+
+[node name="Icon" type="TextureRect" parent="VBox/Header"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("6_sdpry")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Default"
+
+[node name="TextureButton" type="TextureButton" parent="VBox/Header"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "Make Global Palette"
+texture_normal = ExtResource("7_rvf5i")
+texture_hover = ExtResource("8_tavot")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Swatches" type="HFlowContainer" parent="VBox"]
+visible = false
+layout_mode = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+
+[node name="New Swatch Button" type="TextureButton" parent="VBox/Swatches"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+action_mode = 0
+texture_normal = ExtResource("8_eq43k")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("10_tahv0")
+
+[node name="HSeparator" type="HSeparator" parent="VBox"]
+layout_mode = 2
+
+[connection signal="toggled" from="VBox/Header/Toggle" to="VBox/Header/Toggle" method="ToggleExpand"]
+[connection signal="pressed" from="VBox/Header/TextureButton" to="." method="MakeGlobalSwatches"]
+[connection signal="pressed" from="VBox/Swatches/New Swatch Button" to="VBox/Swatches/New Swatch Button" method="AddNewSwatch"]

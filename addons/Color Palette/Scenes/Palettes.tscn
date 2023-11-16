@@ -1,0 +1,163 @@
+[gd_scene load_steps=13 format=3 uid="uid://d3kkyr2phfvkq"]
+
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UIPalletes.cs" id="1_q7cti"]
+[ext_resource type="Texture2D" uid="uid://c4g24l13c0312" path="res://addons/Color Palette/Icons/icon_Search.png" id="1_stsmv"]
+[ext_resource type="PackedScene" uid="uid://x6j8moob5nhi" path="res://addons/Color Palette/Scenes/Palette.tscn" id="3_tfiim"]
+[ext_resource type="Texture2D" uid="uid://bipjb7ugbfqx1" path="res://addons/Color Palette/Icons/icon_Refresh.svg" id="3_w0hr2"]
+[ext_resource type="Texture2D" uid="uid://cd2vmucis1qdc" path="res://addons/Color Palette/Icons/icon_RefreshHover.svg" id="4_637x4"]
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UIPaletteList.cs" id="5_racf3"]
+[ext_resource type="Texture2D" uid="uid://bwg71c5laoj6a" path="res://addons/Color Palette/Icons/icon_Palette.png" id="7_jx426"]
+[ext_resource type="Texture2D" uid="uid://d2s3hvucurrdi" path="res://addons/Color Palette/Icons/icon_Import.svg" id="7_m3u0f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rd6ap"]
+content_margin_left = 15.0
+content_margin_right = 10.0
+bg_color = Color(0.128906, 0.148438, 0.179688, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_22kjq"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhuja"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.128906, 0.148438, 0.179688, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1wvhd"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+draw_center = false
+border_color = Color(0.113281, 0.132813, 0.160156, 1)
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+
+[node name="Palettes" type="Control" node_paths=PackedStringArray("_paletteList", "_createPaletteDialog", "_importPaletteDialog")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q7cti")
+_paletteList = NodePath("VBox/Pallete List/Scroll/Palette List")
+_createPaletteDialog = NodePath("Create Palette Dialog")
+_importPaletteDialog = NodePath("Import Palette Dialog")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxParent" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="Search" type="PanelContainer" parent="VBox/HBoxParent"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_rd6ap")
+
+[node name="HBox" type="HBoxContainer" parent="VBox/HBoxParent/Search"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Filter" type="LineEdit" parent="VBox/HBoxParent/Search/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_22kjq")
+theme_override_styles/focus = SubResource("StyleBoxFlat_22kjq")
+
+[node name="Icon" type="TextureRect" parent="VBox/HBoxParent/Search/HBox"]
+self_modulate = Color(0.210938, 0.238281, 0.289063, 1)
+layout_mode = 2
+texture = ExtResource("1_stsmv")
+expand_mode = 2
+
+[node name="RefreshButton" type="TextureButton" parent="VBox/HBoxParent"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+action_mode = 0
+texture_normal = ExtResource("3_w0hr2")
+texture_hover = ExtResource("4_637x4")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Pallete List" type="PanelContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_xhuja")
+
+[node name="Scroll" type="ScrollContainer" parent="VBox/Pallete List"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Palette List" type="VBoxContainer" parent="VBox/Pallete List/Scroll" node_paths=PackedStringArray("_filter")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+script = ExtResource("5_racf3")
+_paletteScene = ExtResource("3_tfiim")
+_filter = NodePath("../../../HBoxParent/Search/HBox/Filter")
+
+[node name="Buttons" type="PanelContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_1wvhd")
+
+[node name="HBox" type="HBoxContainer" parent="VBox/Buttons"]
+layout_mode = 2
+alignment = 2
+
+[node name="Import Palette" type="Button" parent="VBox/Buttons/HBox"]
+layout_mode = 2
+tooltip_text = "Import Palette"
+text = "      "
+icon = ExtResource("7_m3u0f")
+icon_alignment = 1
+expand_icon = true
+
+[node name="New Palette" type="Button" parent="VBox/Buttons/HBox"]
+layout_mode = 2
+tooltip_text = "Create a new palette"
+text = "      "
+icon = ExtResource("7_jx426")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Create Palette Dialog" type="FileDialog" parent="."]
+title = "Create Palette"
+initial_position = 2
+size = Vector2i(960, 540)
+root_subfolder = "res://addons/Color Palette/Palettes/"
+filters = PackedStringArray("*.hex; Hex Palette")
+
+[node name="Import Palette Dialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(960, 540)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.hex; Hex Palette", "*.gpl; GIMP Palette")
+
+[connection signal="text_changed" from="VBox/HBoxParent/Search/HBox/Filter" to="." method="FilterPalettes"]
+[connection signal="pressed" from="VBox/HBoxParent/RefreshButton" to="VBox/Pallete List/Scroll/Palette List" method="Refresh"]
+[connection signal="pressed" from="VBox/Buttons/HBox/Import Palette" to="." method="ShowImportPaletteDialog"]
+[connection signal="pressed" from="VBox/Buttons/HBox/New Palette" to="." method="ShowCreatePaletteDialog"]
+[connection signal="file_selected" from="Create Palette Dialog" to="VBox/Pallete List/Scroll/Palette List" method="CreatePalette"]
+[connection signal="file_selected" from="Import Palette Dialog" to="VBox/Pallete List/Scroll/Palette List" method="ImportPalette"]

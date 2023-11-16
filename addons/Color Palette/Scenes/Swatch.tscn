@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://o4ej4exlxy1d"]
+
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UISwatch.cs" id="1_8h8me"]
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UISwatchButton.cs" id="2_v5j5w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0ycu0"]
+
+[node name="Swatch" type="Control" node_paths=PackedStringArray("_color", "_colorPickerButton")]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_8h8me")
+_color = NodePath("Color")
+_colorPickerButton = NodePath("Button")
+
+[node name="Button" type="ColorPickerButton" parent="." node_paths=PackedStringArray("_color", "_uiSwatch")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_0ycu0")
+button_mask = 3
+script = ExtResource("2_v5j5w")
+_color = NodePath("../Color")
+_uiSwatch = NodePath("..")
+
+[node name="Color" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="color_changed" from="Button" to="Button" method="ChangeColor"]
+[connection signal="gui_input" from="Button" to="Button" method="UpdatePickerColor"]
+[connection signal="popup_closed" from="Button" to="Button" method="SavePalette"]

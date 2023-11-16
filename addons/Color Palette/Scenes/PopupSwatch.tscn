@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1kilaj2p1841"]
+
+[ext_resource type="Script" path="res://addons/Color Palette/UI/UIPopupSwatch.cs" id="1_qg8gx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0ycu0"]
+
+[node name="Swatch" type="Control" node_paths=PackedStringArray("_color", "_button")]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_qg8gx")
+_color = NodePath("Color")
+_button = NodePath("Button")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_0ycu0")
+
+[node name="Color" type="ColorRect" parent="."]
+layout_mode = 2
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
